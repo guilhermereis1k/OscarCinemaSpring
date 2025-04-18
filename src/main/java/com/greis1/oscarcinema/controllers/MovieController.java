@@ -7,12 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/movie")
 public class MovieController {
 
     @Autowired
     MovieService movieService;
+
+    @GetMapping("/")
+    public ResponseEntity<List<Movie>> getMovies() {
+        List<Movie> movies = movieService.getAllMovies();
+        return ResponseEntity.ok().body(movies);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<Movie> insertMovie(@RequestBody Movie movie){
@@ -32,7 +40,7 @@ public class MovieController {
         return ResponseEntity.ok().body("Deleted successfully.");
     }
 
-    @PatchMapping("/change/")
+    @PutMapping("/change/")
     public ResponseEntity<Movie> changeMovie(@RequestBody Long id, MovieUpdateDTO movieDTO){
         Movie changedMovie = movieService.changeMovie(id, movieDTO);
         return ResponseEntity.ok().body(changedMovie);

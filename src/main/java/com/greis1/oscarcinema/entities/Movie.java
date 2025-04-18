@@ -11,8 +11,8 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "movie")
 public class Movie {
 
@@ -28,6 +28,14 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private List<Order> orders = new ArrayList<>();
 
+    public Movie(String name, String imageUrl, String description, Integer minimumAge) {
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.minimumAge = minimumAge;
+        this.orders = new ArrayList<>();
+    }
     public Movie(Long id, String name, String imageUrl, String description, Integer minimumAge) {
         this.id = id;
         this.name = name;

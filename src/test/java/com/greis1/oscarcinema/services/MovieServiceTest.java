@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -71,20 +72,21 @@ class MovieServiceTest {
         Long id = 1L;
         Movie movie = new Movie(id, "Anora", "https://upload.wikimedia.org/wikipedia/pt/thumb/8/86/Anora_%28filme%29.jpg/250px-Anora_%28filme%29.jpg", "Anora, uma jovem stripper do Brooklyn, conhece o filho de um oligarca russo na boate em que trabalha.", 18);
 
-        when(movieRepository.save(movie)).thenReturn(movie);
-        Movie savedMovie = movieService.insertMovie(movie);
+        when(movieRepository.findById(id)).thenReturn(Optional.of(movie));
 
-        when(movieRepository.findById(1L)).thenReturn(Optional.of(movie));
+        MovieUpdateDTO movieAltered = new MovieUpdateDTO(
+                "Amora",
+                "https://upload.wikimedia.org/wikipedia/pt/thumb/8/86/Anora_%28filme%29.jpg/250px-Anora_%28filme%29.jpg",
+                "Anora, uma jovem stripper do Brooklyn, conhece o filho de um oligarca russo na boate em que trabalha.",
+                18);
 
-        MovieUpdateDTO movieAltered = new MovieUpdateDTO();
-        movieAltered.setName("Amora");
+        when(movieRepository.save(Mockito.any(Movie.class))).thenReturn(new Movie(id, "Amora", movie.getImageUrl(), movie.getDescription(), movie.getMinimumAge()));
 
-        when(movieRepository.save(movie)).thenReturn(movie);
-        movieService.changeMovie(id, movieAltered);
+        Movie updatedMovie = movieService.changeMovie(id, movieAltered);
 
-        assertNotNull(movie);
-        assertEquals("Amora", movie.getName());
-        assertNotEquals("Anora", movie.getName());
+        assertNotNull(updatedMovie);
+        assertEquals("Amora", updatedMovie.getName());
+        assertNotEquals("Anora", updatedMovie.getName());
     }
 
   
