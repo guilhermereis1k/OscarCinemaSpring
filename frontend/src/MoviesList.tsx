@@ -1,7 +1,6 @@
-// MoviesPage.tsx
 import React, { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import './MoviesPage.css'
+import './MoviesList.css'
 
 interface Movie {
   id: number;
@@ -11,7 +10,7 @@ interface Movie {
   minimumAge: number;
 }
 
-const MoviesPage = () => {
+const MoviesList = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
 
   const Api = axios.create({
@@ -48,9 +47,8 @@ const MoviesPage = () => {
         <ul className='moviesList'>
           {movies.map((movie) => (
             <li className='movieItem' key={movie.id}>
-              <h2 className='movieTitle'>{movie.name}</h2>
               <img src={movie.imageUrl} alt={movie.name} />
-              <p className='movieDesc'>{movie.description}</p>
+              <h2 className='movieTitle'>{movie.name}</h2>
             </li>
           ))}
         </ul>
@@ -59,4 +57,4 @@ const MoviesPage = () => {
   );
 };
 
-export default MoviesPage;
+export default MoviesList;

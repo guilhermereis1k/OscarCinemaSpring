@@ -3,8 +3,10 @@ package com.greis1.oscarcinema.services;
 import com.greis1.oscarcinema.dtos.OrderUpdateDTO;
 import com.greis1.oscarcinema.entities.Movie;
 import com.greis1.oscarcinema.entities.Order;
+import com.greis1.oscarcinema.entities.Session;
 import com.greis1.oscarcinema.entities.User;
 import com.greis1.oscarcinema.repositories.OrderRepository;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +25,14 @@ public class OrderService {
     @Autowired
     UserService userService;
 
-    public Order insertOrder(String userDocumentId, Long movieId, String session, Integer roomNumber, String projectorType, Boolean isItDubbed, List<String> seats){
-        User user = userService.findUserByDocumentId(userDocumentId);
-        Movie movie = movieService.findMovieById(movieId);
+    @Autowired
+    SessionService sessionService;
 
-        Order order = new Order(movie, user, session, roomNumber, projectorType, isItDubbed, seats);
+    public Order insertOrder(String userDocumentId, Long sessionId, List<String> seats){
+        User user = userService.findUserByDocumentId(userDocumentId);
+        Session session = sessionService.findSessionById(sessionId);
+
+        Order order = new Order(user, session, seats);
 
         return orderRepository.save(order);
     }
@@ -41,28 +46,23 @@ public class OrderService {
     }
 
     public Order changeOrder(Long id, OrderUpdateDTO orderDTO) {
-        Order order = orderRepository.findById(id)
+        Order existingOrder = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found."));
 
-        if (orderDTO.getSession() != null) {
-            order.setSession(orderDTO.getSession());
-        }
-        if (orderDTO.getRoomNumber() != null) {
-            order.setRoomNumber(orderDTO.getRoomNumber());
-        }
-        if (orderDTO.getProjectorType() != null) {
-            order.setProjectorType(orderDTO.getProjectorType());
-        }
-        if (orderDTO.getIsItDubbed() != null) {
-            order.setItDubbed(orderDTO.getIsItDubbed());
-        }
         if (orderDTO.getSeats() != null) {
-            order.setSeats(orderDTO.getSeats());
-        }
-        if (orderDTO.getTotalPaid() != null) {
-            order.setTotalPaid(orderDTO.getTotalPaid());
+            existingOrder.getSeats().clear();
+            existingOrder.getSeats().addAll(orderDTO.getSeats());
+            existingOrder.setTotalPaid(existingOrder.getSeats().size() * 15.00);
         }
 
-        return orderRepository.save(order);
+        if (orderDTO.getUser() != null) {
+            existingOrder.setUser(orderDTO.getUser());
+        }
+
+        if (orderDTO.getSession() != null) {
+            existingOrder.setSession(orderDTO.getSession());
+        }
+
+        return orderRepository.save(existingOrder);
     }
 }

@@ -22,40 +22,28 @@ public class Order {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id")
-    private Movie movie;
-
-    @ManyToOne
     @JoinColumn(name = "users_id")
     private User user;
 
-    private String session;
-    private Integer roomNumber;
-    private String projectorType;
-    private boolean isItDubbed;
+    @ManyToOne
+    @JoinColumn(name = "session_id")
+    private Session session;
+
     private Double totalPaid;
 
-    private List<String> seats;
+    @ElementCollection
+    private List<String> seats = new ArrayList<>();;
 
-    public Order(Movie movie, User user, String session, Integer roomNumber, String projectorType, Boolean isItDubbed, List<String> seats) {
-        this.movie = movie;
+    public Order(User user, Session session, List<String> seats) {
         this.user = user;
         this.session = session;
-        this.roomNumber = roomNumber;
-        this.projectorType = projectorType;
-        this.isItDubbed = isItDubbed;
         this.seats = seats;
         this.totalPaid = seats.size() * 15.00;
     }
 
-    public Order(Long orderId, Movie movie, User user, String session, Integer roomNumber, String projectorType, Boolean isItDubbed, List<String> seats) {
+    public Order(Long orderId, User user, List<String> seats) {
         this.id = orderId;
-        this.movie = movie;
         this.user = user;
-        this.session = session;
-        this.roomNumber = roomNumber;
-        this.projectorType = projectorType;
-        this.isItDubbed = isItDubbed;
         this.seats = seats;
         this.totalPaid = seats.size() * 15.00;
     }

@@ -1,5 +1,6 @@
 package com.greis1.oscarcinema.controllers;
 
+import com.greis1.oscarcinema.dtos.UserCreateDTO;
 import com.greis1.oscarcinema.dtos.UserUpdateDTO;
 import com.greis1.oscarcinema.entities.User;
 import com.greis1.oscarcinema.services.UserService;
@@ -15,31 +16,31 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity<User> insertUser(User user){
-        User insertedUser = userService.insertUser(user);
+    public ResponseEntity<User> insertUser(@RequestBody UserCreateDTO userCreateDTO){
+        User insertedUser = userService.insertUser(userCreateDTO);
         return ResponseEntity.ok().body(insertedUser);
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<User> findUserById(Long id){
+    @GetMapping("/search/id/{id}")
+    public ResponseEntity<User> findUserById(@PathVariable Long id){
         User foundUser = userService.findUserById(id);
         return ResponseEntity.ok().body(foundUser);
     }
 
-    @GetMapping("/documentId/{documentId}")
-    public ResponseEntity<User> findUserByDocumentId(String documentId){
+    @GetMapping("/search/documentId/{documentId}")
+    public ResponseEntity<User> findUserByDocumentId(@PathVariable String documentId){
         User foundUser = userService.findUserByDocumentId(documentId);
         return ResponseEntity.ok().body(foundUser);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> removeUser(Long id) {
+    public ResponseEntity<String> removeUser(@PathVariable Long id) {
         userService.removeUser(id);
         return ResponseEntity.ok().body("Deleted successfully.");
     }
 
-    @PatchMapping("/change/")
-    public ResponseEntity<User> changeUser(Long id, UserUpdateDTO userDTO){
+    @PatchMapping("/change/{id}")
+    public ResponseEntity<User> changeUser(@PathVariable Long id, @RequestBody UserUpdateDTO userDTO){
         User changedUser = userService.changeUser(id, userDTO);
         return ResponseEntity.ok().body(changedUser);
     }

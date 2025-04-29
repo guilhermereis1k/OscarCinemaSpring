@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import {AxiosResponse} from 'axios'
-import MoviesPage from './MoviesPage.tsx'
+import MoviesList from './MoviesList.tsx'
 import './App.css'
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <MoviesPage />
+      <MoviesList />
     </>
   )
 }

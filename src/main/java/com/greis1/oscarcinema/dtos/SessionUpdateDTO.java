@@ -1,22 +1,21 @@
 package com.greis1.oscarcinema.dtos;
 
 import com.greis1.oscarcinema.entities.Movie;
-import com.greis1.oscarcinema.entities.Session;
-import com.greis1.oscarcinema.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-public class OrderUpdateDTO {
+public class SessionUpdateDTO {
+    private Integer roomNumber;
+    private String projectorType;
+    private Boolean isItDubbed;
     private Movie movie;
-    private User user;
-    private Session session;
-    private List<String> seats;
+    private LocalDateTime sessionDateTime;
 }

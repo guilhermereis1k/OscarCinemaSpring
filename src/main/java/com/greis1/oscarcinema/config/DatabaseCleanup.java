@@ -12,7 +12,6 @@ public class DatabaseCleanup {
     @Autowired
     private MovieService movieService;
 
-    @PreDestroy
     public void cleanUpDatabase() {
         movieService.removeAllMovies();
     }

@@ -14,7 +14,7 @@ public class MovieService {
     @Autowired
     MovieRepository movieRepository;
 
-    public List<Movie> getAllMovies() {
+    public List<Movie> findAllMovies() {
         return movieRepository.findAll();
     }
 
@@ -34,18 +34,27 @@ public class MovieService {
         movieRepository.deleteAll();
     }
 
-    public Movie changeMovie(Long id, MovieUpdateDTO movieDTO){
+    public Movie changeMovie(Long id, MovieUpdateDTO movieDTO) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Movie not found."));
 
-        Movie alteredMovie = new Movie(
-                movie.getId(),
-                movieDTO.getName(),
-                movieDTO.getImageUrl(),
-                movieDTO.getDescription(),
-                movieDTO.getMinimumAge()
-        );
+        if (movieDTO.getName() != null) {
+            movie.setName(movieDTO.getName());
+        }
 
-        return movieRepository.save(alteredMovie);
+        if (movieDTO.getImageUrl() != null) {
+            movie.setImageUrl(movieDTO.getImageUrl());
+        }
+
+        if (movieDTO.getDescription() != null) {
+            movie.setDescription(movieDTO.getDescription());
+        }
+
+        if (movieDTO.getMinimumAge() != null) {
+            movie.setMinimumAge(movieDTO.getMinimumAge());
+        }
+
+        return movieRepository.save(movie);
     }
+
 }

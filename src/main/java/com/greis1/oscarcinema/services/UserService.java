@@ -1,6 +1,7 @@
 package com.greis1.oscarcinema.services;
 
 import com.greis1.oscarcinema.dtos.MovieUpdateDTO;
+import com.greis1.oscarcinema.dtos.UserCreateDTO;
 import com.greis1.oscarcinema.dtos.UserUpdateDTO;
 import com.greis1.oscarcinema.entities.Movie;
 import com.greis1.oscarcinema.entities.User;
@@ -14,7 +15,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public User insertUser(User user){
+    public User insertUser(UserCreateDTO userCreateDTO){
+        User user = new User(userCreateDTO);
         return userRepository.save(user);
     }
 
