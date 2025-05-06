@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import {AxiosResponse} from 'axios'
-import MoviesList from './MoviesList.tsx'
-import './App.css'
+import MoviesList from './components/MoviesList.tsx';
+import Header from './components/UI/Header.tsx';
+import Swiper from './components/Swiper.tsx';
+import './style/App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
+      <Header />
+      <Swiper />
       <MoviesList />
     </>
   )

@@ -26,6 +26,7 @@ public class Movie {
     private String imageUrl;
     private String description;
     private Integer minimumAge;
+    private String rating;
 
     @JsonIgnore
     @OneToMany(mappedBy = "movie")

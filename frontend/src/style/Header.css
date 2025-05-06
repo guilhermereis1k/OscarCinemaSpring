@@ -1,0 +1,44 @@
+header{
+    display: flex;
+    padding: 10px 0;
+    position: sticky;
+    z-index: 999;
+    top: 0;
+    background-color: #070707;
+}
+
+.logo {
+    color: #D49F3E;
+}
+
+.menu{
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.menu__logo{
+    display: flex;
+    font-size: 1.8em;
+    gap: 10px;
+    align-items: center;
+}
+
+.menu__logo svg{
+    max-height: 30px;
+}
+
+.menu__list {
+    margin-left: 5em;
+    display: flex;
+    gap: 3em;
+}
+
+.menu__list li{
+    color: #fff;
+    font-size: 1.6em;
+    text-transform: uppercase;
+    font-family: 'Roboto';
+    font-weight: 700;
+}
+
