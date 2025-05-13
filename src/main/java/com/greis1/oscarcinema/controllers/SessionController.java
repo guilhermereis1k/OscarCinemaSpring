@@ -1,6 +1,7 @@
 package com.greis1.oscarcinema.controllers;
 
 import com.greis1.oscarcinema.dtos.SessionCreateDTO;
+import com.greis1.oscarcinema.dtos.SessionRequestDTO;
 import com.greis1.oscarcinema.dtos.SessionUpdateDTO;
 import com.greis1.oscarcinema.entities.Order;
 import com.greis1.oscarcinema.entities.Session;
@@ -24,6 +25,12 @@ public class SessionController {
     public ResponseEntity<Session> insertSession(@RequestBody SessionCreateDTO sessionCreateDTO) {
         Session session = sessionService.insertSession(sessionCreateDTO);
         return ResponseEntity.ok().body(session);
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<Session>> getFilteredSessions(@RequestBody SessionRequestDTO filterDTO) {
+        List<Session> filteredSessions = sessionService.findSessionsByFilter(filterDTO);
+        return ResponseEntity.ok().body(filteredSessions);
     }
 
     @GetMapping

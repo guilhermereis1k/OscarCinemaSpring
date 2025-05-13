@@ -1,0 +1,54 @@
+.moviePage__filters {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 1px solid #252525;
+    border-radius: 12px;
+    background-color: #0c0c0c;
+}
+
+.moviePage__filters h3 {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+    color: #f5f5f5;
+}
+
+.moviePage__filtersRow {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.moviePage__filterItem {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.moviePage__filterItem label {
+    font-size: 1.3rem;
+    color: #ccc;
+    margin-bottom: 0.5rem;
+}
+
+.moviePage__filterItem select {
+    padding: 1.5rem 1.5rem;
+    border: 1px solid #666;
+    border-radius: 8px;
+    background-color: #111111;
+    color: #f0f0f0;
+    font-size: 1.2rem;
+    font-family: 'Roboto';
+    font-weight: 500;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.moviePage__filterItem select:focus {
+    border-color: #D49F3E;
+    outline: none;
+    background-color: #333;
+}
+
+.moviePage__filterItem option {
+    font-size: 1.2rem;
+    font-family: 'Roboto';
+}

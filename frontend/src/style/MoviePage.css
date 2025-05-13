@@ -1,0 +1,57 @@
+.moviePage__content{
+    display: flex;
+    gap: 5em;
+    margin-top: 30px;
+}
+
+.moviePage__imgBox{
+    display: flex;
+    flex-direction: column;
+}
+
+.moviePage__movieCover{
+    width: 100%;
+    max-width: 300px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.moviePage__description{
+    font-size: 1.4em;
+    margin-top: 0;
+}
+.moviePage__title{
+    font-size: 2.4em;
+    margin-bottom: .5em;
+    margin-top: 0;
+}
+
+.moviePage__info{
+    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.moviePage__info h2{
+    margin-top: 0;
+    font-size: 2em;
+}
+
+.moviePage__pg {
+    width: 25px;
+    height: 25px;
+    align-self: center;
+}
+
+.moviePage__titleBox{
+    width: 100%;
+    margin-top: 2cap;
+    align-items: center;
+}
+
+.moviePage__right{
+    width: 100%;
+}

@@ -1,0 +1,41 @@
+.sessions__content {
+  margin-top: 40px;
+  font-family: 'Roboto';
+}
+
+.sessions__title {
+  font-size: 1.6rem;
+  margin-bottom: 30px;
+}
+
+.sessions__room {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.sessions__list {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.sessions__item {
+  padding: 10px 20px;
+  border: 2px solid #272727;
+  font-size: 1.4em;
+  font-weight: 300;
+  font-family: 'Roboto';
+  border-radius: 8px;
+  transition: all .3s ease;
+}
+
+.sessions__item:hover {
+  border: 2px solid #D49F3E;
+  font-weight: 400;
+}
+
+.sessions__error{
+  font-family: 'Roboto';
+  font-size: 1.4em;
+}

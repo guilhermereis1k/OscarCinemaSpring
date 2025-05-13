@@ -1,6 +1,7 @@
 package com.greis1.oscarcinema.services;
 
 import com.greis1.oscarcinema.dtos.SessionCreateDTO;
+import com.greis1.oscarcinema.dtos.SessionRequestDTO;
 import com.greis1.oscarcinema.dtos.SessionUpdateDTO;
 import com.greis1.oscarcinema.entities.Movie;
 import com.greis1.oscarcinema.entities.Order;
@@ -59,6 +60,16 @@ public class SessionService {
                 .collect(Collectors.toList());
     }
 
+    public List<Session> findSessionsByFilter(SessionRequestDTO sessionRequestDTO) {
+        return sessionRepository.findAll()
+                .stream()
+                .filter(session -> session.getMovie().getId().equals(sessionRequestDTO.getMovieId()))
+                .filter(session -> session.getProjectorType().equalsIgnoreCase(sessionRequestDTO.getProjectorType()))
+                .filter(session -> session.getIsItDubbed().equals(sessionRequestDTO.getIsItDubbed()))
+                .filter(session -> session.getSessionDate().equals(sessionRequestDTO.getSessionDate()))
+                .collect(Collectors.toList());
+    }
+
 
     public void deleteSession(Long id){
         sessionRepository.deleteById(id);
@@ -72,8 +83,10 @@ public class SessionService {
             existingSession.setRoomNumber(sessionDTO.getRoomNumber());
         }
 
-        if (sessionDTO.getSessionDateTime() != null) {
-            existingSession.setSessionDateTime(sessionDTO.getSessionDateTime());
+        if (sessionDTO.getSessionDate() != null) existingSession.setSessionDate(sessionDTO.getSessionDate());
+
+        if (sessionDTO.getSessionTime() != null) {
+            existingSession.setSessionTime(sessionDTO.getSessionTime());
         }
 
         if (sessionDTO.getProjectorType() != null) {

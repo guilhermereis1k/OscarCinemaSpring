@@ -1,7 +1,6 @@
-import axios, { AxiosResponse } from "axios";
-import { useKeenSlider } from "keen-slider/react";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import LImage from '../src/assets/L.svg';
 import TenImage from '../src/assets/10.svg';
 import TwelveImage from '../src/assets/12.svg';
@@ -9,7 +8,10 @@ import FourteenImage from '../src/assets/14.svg';
 import SixteenImage from '../src/assets/16.svg';
 import EighteenImage from '../src/assets/18.svg';
 import NRImage from '../src/assets/no-rating.svg';
-
+import "./style/MoviePage.css";
+import Header from "./components/UI/Header";
+import SessionFilters from "./components/SessionFilters";
+import SessionList from "./components/SessionList"; // <-- Mantido
 
 interface Movie {
     id: number;
@@ -17,30 +19,33 @@ interface Movie {
     description: string;
     imageUrl: string;
     minimumAge: number;
-  }
+}
 
 const MoviePage = () => {
     const [movie, setMovie] = useState<Movie | null>(null);
-
-    const { id } = useParams<{ id: string }>()
-  
-    const Api = axios.create({
-        baseURL: 'http://localhost:8080',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-
-    const getMovie = async (): Promise<AxiosResponse<Movie>> => {
-        return Api.get(`/movie/search/id/${id}`);
+    const formatarData = (date: Date) => {
+        return date.toISOString().split('T')[0];
     };
+    const [filters, setFilters] = useState({
+        date: formatarData(new Date()),
+        projectorType: '2D',
+        language: 'dub',
+    });
+    const [error, setError] = useState<string | null>(null);
+
+    const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
         const fetchMovie = async () => {
             try {
-                const response = await getMovie();
-                setMovie(response.data); // Set the movie data when fetched
+                const response = await axios.get(`http://localhost:8080/movie/search/id/${id}`);
+                if (response.data) {
+                    setMovie(response.data);
+                } else {
+                    setError('Filme não encontrado.');
+                }
             } catch (error) {
+                setError('Erro ao carregar os dados do filme.');
                 console.error('Erro ao buscar filme:', error);
             }
         };
@@ -48,8 +53,19 @@ const MoviePage = () => {
         fetchMovie();
     }, [id]);
 
+    const handleFilterChange = (field: string, value: string) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [field]: value,
+        }));
+    };
+
+    if (error) {
+        return <p>{error}</p>;
+    }
+
     if (!movie) {
-        return <p>Carregando filme...</p>; // Show loading text while movie is fetched
+        return <p>Carregando filme...</p>;
     }
 
     const minImage =
@@ -62,25 +78,42 @@ const MoviePage = () => {
         NRImage;
 
     return (
-        <div>
-            <div key={movie.id}>
-                <img
-                    src={movie.imageUrl}
-                    alt={`Cartaz do filme ${movie.name}`}
-                />
-                <div>
-                    <h2>{movie.name}</h2>
+        <>
+            <Header />
+            <div className="moviePage__content">
+                <div className="moviePage__imgBox" key={movie.id}>
                     <img
-                        src={minImage}
-                        alt={`Classificação indicativa: ${movie.minimumAge}`}
+                        className="moviePage__movieCover"
+                        src={movie.imageUrl}
+                        alt={`Cartaz do filme ${movie.name}`}
+                    />
+                    <ul className="moviePage__underCover">
+                        <li className="moviePage__titleBox">
+                            <h2 className="moviePage__title">{movie.name}</h2>
+                        </li>
+                        <li>
+                            <p>Classificação indicativa: </p>
+                            <img className="moviePage__pg"
+                                src={minImage}
+                                alt={`Classificação indicativa: ${movie.minimumAge}`}
+                            />
+                        </li>
+                    </ul>
+                </div>
+                <div className="moviePage__right">
+                    <div className="moviePage__info">
+                        <h2>Sinopse</h2>
+                        <p className="moviePage__description"> {movie.description}</p>
+                    </div>
+                    <SessionFilters filters={filters} onFilterChange={handleFilterChange} />
+                    <SessionList
+                        movieId={movie.id}
+                        filters={filters}
                     />
                 </div>
-                <div>
-                    <p>{movie.description}</p>
-                </div>
             </div>
-        </div>
+        </>
     );
-}
+};
 
 export default MoviePage;

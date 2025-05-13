@@ -11,16 +11,12 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
-public class SessionCreateDTO {
-    private Integer roomNumber;
+public class SessionRequestDTO {
     private String projectorType;
     private String isItDubbed;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate sessionDate;
-
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime sessionTime;
 
     private Long movieId;
 }
